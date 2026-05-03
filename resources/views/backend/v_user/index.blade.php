@@ -2,10 +2,11 @@
 @section('content')
 <!-- contentawal -->
 <h3></h3>
-<button type="button" class="btn btn-outline-primary">Tambah</button>
 <div class="row">
-
     <div class="col-12">
+        <a href="{{route('backend.user.create')}}"
+            <button type="button" class="btn btn-outline-primary">Tambah<i class="fas fa-plus"></i></button>
+        </a>
         <div class="card">
             <div class="card-body border-top">
                 <h5 class="card-title">{{$judul}}</h5>
