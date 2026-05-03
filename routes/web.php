@@ -25,4 +25,4 @@ route::get('/beranda', [BerandaController::class, 'berandaBackend'])->name('back
 route::get('backend/login', [LoginController::class, 'loginBackend'])->name('backend.login');
 route::post('backend/login', [LoginController::class, 'authenticateBackend'])->name('backend.login');
 route::post('backend/logout', [LoginController::class, 'logoutBackend'])->name('backend.logout');
-route::resource('backend/user', UserController::class);
+route::resource('backend/user', UserController::class,['as' => 'backend'])->middleware('auth');
