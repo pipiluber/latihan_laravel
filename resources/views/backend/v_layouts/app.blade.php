@@ -199,7 +199,15 @@
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="plate/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31"></a>
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                              
+                                @if(Auth::user()->foto)
+                                <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" alt="user" class="rounded-circle" width="31">
+                                @else
+                                <img src="{{ asset('storage/img-user/img-default.jpeg') }}" alt="user" class="rounded-circle" width="31">
+                                @endif
+                            </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
                                 <a class="dropdown-item" href="" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
@@ -234,7 +242,7 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('backend.user.index') }}" aria-expanded="false"><i class="mdi mdi-account"></i><span class="hide-menu">User</span></a></li>
 
-                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu">Product data </span></a>
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu">Product data </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
                                 <li class="sidebar-item"><a href="authentication-category.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Category </span></a></li>
                                 <li class="sidebar-item"><a href="authentication-product.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Product </span></a></li>
@@ -269,7 +277,7 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 @yield('content')
-               
+
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -323,6 +331,41 @@
          *       Basic Table                   *
          ****************************************/
         $('#zero_config').DataTable();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: "{{ session('success') }}",
+        });
+    </script>
+    @endif
+    <script type="text/javascript">
+        $('.show_confirm').click(function(event) {
+            var form = $(this).closest("form");
+            var konfdelete = $(this).data("konf-delete");
+            event.preventDefault();
+            Swal.fire({
+                title: 'apakah anda yakin ingin menghapus data ini?',
+                html: "data yang sudah dihapus<strong>" + konfdelete + "</strong> tidak bisa dikembalikan",
+                icon: 'warning',
+                showCancelButton: true,
+                confrimButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confrimButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swal.fire('Deleted!', 'Data has deleted', 'success')
+                        .then(() => {
+                            form.submit();
+                        });
+                }
+            });
+        });
     </script>
 
 </body>

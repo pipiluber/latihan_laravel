@@ -83,7 +83,11 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('backend.v_user.edit', [
+            'judul' => 'Ubah Data User',
+            'edit' => $user
+        ]);
     }
 
     /**
@@ -91,7 +95,44 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $rules = [
+            'name' => 'required|max:255',
+            'role' => 'required',
+            'status' => 'required',
+            'hp' => 'required|min:10|max:13',
+            'foto' => 'image|mimes:jpeg,jpg,png,gif|file|max:1024'
+        ];
+        $message = [
+            'foto.image' => 'format gambar gunakan file ekstensi jpeg,jpg,png,gif.',
+            'foto.max' => 'Ukuran file gambar maksimal adalah 1024 KB.'
+        ];
+
+        if ($request->email != $user->email) {
+
+            $rules['email'] = 'required|max:255|email|unique:user';
+        }
+        $validatedData = $request->validate($rules, $message);
+        
+        if ($request->file('foto')) {
+
+
+            if ($user->foto) {
+                $oldImagePath = public_path('storage/img-user/' . $user->foto);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+            $file = $request->file('foto');
+            $extension = $file->getClientOriginalExtension();
+            $originalFileName = date('YmdHis') . '_' . uniqid() . '.' . $extension;
+            $dicrectory = 'storage/img-user';
+            ImageHelpher::uploadAndResize($file, $dicrectory, $originalFileName, 385, 400);
+            $validatedData['foto'] = $originalFileName;
+        }
+
+        $user->update($validatedData);
+        return redirect()->route('backend.user.index')->with('success', 'data berhasil diubah');
     }
 
     /**
@@ -99,6 +140,14 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        if ($user->foto) {
+            $oldImagePath = public_path('storage/img-user/') . $user->foto;
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
+        $user->delete();
+        return redirect()->route('backend.user.index')->with('success', 'data berhasil dihapus');
     }
 }

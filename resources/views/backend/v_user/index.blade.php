@@ -58,13 +58,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('anggota.edit', $row->id) }}">
+                                    <a href="{{ route('backend.user.edit', $row->id) }}">
                                         <button type="button" class="btn btn-outline-warning">Ubah</button>
                                     </a>
-                                    <form action="{{ route('anggota.destroy', $row->id) }}" method="POST">
+                                    <form action="{{ route('backend.user.destroy', $row->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                        <button type="submit" class="btn btn-outline-danger btn-sm show_confirm" data-konf-delete="{{ $row->name }}" title='Hapus'>
+                                            <i class="fas fa-trash"></i> Hapus</button>
                                     </form>
                                 </td>
                             </tr>
