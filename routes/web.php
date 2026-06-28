@@ -9,6 +9,8 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ProdukController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,3 +28,5 @@ route::get('backend/login', [LoginController::class, 'loginBackend'])->name('bac
 route::post('backend/login', [LoginController::class, 'authenticateBackend'])->name('backend.login');
 route::post('backend/logout', [LoginController::class, 'logoutBackend'])->name('backend.logout');
 route::resource('backend/user', UserController::class,['as' => 'backend'])->middleware('auth');
+route::resource('backend/kategori', KategoriController::class,['as' => 'backend'])->middleware('auth');
+route::resource('backend/produk', ProdukController::class,['as' => 'backend'])->middleware('auth');

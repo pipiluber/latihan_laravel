@@ -201,7 +201,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                              
+
                                 @if(Auth::user()->foto)
                                 <img src="{{ asset('storage/img-user/' . Auth::user()->foto) }}" alt="user" class="rounded-circle" width="31">
                                 @else
@@ -244,8 +244,8 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu">Product data </span></a>
                             <ul aria-expanded="false" class="collapse  first-level">
-                                <li class="sidebar-item"><a href="authentication-category.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Category </span></a></li>
-                                <li class="sidebar-item"><a href="authentication-product.html" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Product </span></a></li>
+                                <li class="sidebar-item"><a href="{{ route('backend.kategori.index') }}" class="sidebar-link"><i class="mdi mdi-all-inclusive"></i><span class="hide-menu"> Category </span></a></li>
+                                <li class="sidebar-item"><a href="{{route('backend.produk.index')}}" class="sidebar-link"><i class="mdi mdi-chevron-right"></i><span class="hide-menu"> Product </span></a></li>
                             </ul>
                         </li>
 
